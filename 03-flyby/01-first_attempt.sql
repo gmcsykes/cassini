@@ -8,7 +8,7 @@ order by time_stamp;
 
 -- using partial string
 select targets.description as target, 
-time_stamp, 
+time_stamp,
 title
 from events
 inner join targets on target_id=targets.id
