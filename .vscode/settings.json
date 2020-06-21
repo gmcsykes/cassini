@@ -1,0 +1,15 @@
+{
+    "sqltools.connections": [
+        {
+            "askForPassword": false,
+            "database": "enceladus",
+            "driver": "PostgreSQL",
+            "name": "cassini",
+            "password": "1Then5%$",
+            "port": 5432,
+            "previewLimit": 50,
+            "server": "localhost",
+            "username": "sykesm"
+        }
+    ]
+}

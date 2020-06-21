@@ -12,7 +12,7 @@ to_tsvector(events.description) as search
 from events
 inner join event_types 
 on event_types.id = events.event_type_id
-where target_id=40
+where target_id=46
 order by time_stamp;
 
 -- find the thermal results
