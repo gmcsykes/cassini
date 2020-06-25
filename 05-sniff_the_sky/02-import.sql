@@ -79,7 +79,7 @@ CREATE TABLE import.inms (
 );
 
 COPY import.inms 
-FROM '[ABS PATH TO]/inms.csv'
+FROM '/home/sykesm/Documents/Cassini/data/curious_data/data/INMS/inms.csv'
 DELIMITER ',' HEADER CSV;
 
 -- cleat it up by removing headers

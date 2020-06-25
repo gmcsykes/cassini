@@ -12,13 +12,12 @@ events.description,
 events.time_stamp, 
 events.time_stamp::date as date,
 event_types.description as event,
-to_tsvector(
-    concat(events.description,'',events.title)
+to_tsvector(concat(events.description,'',events.title)
 ) as search
 from events
 inner join event_types 
 on event_types.id = events.event_type_id
-where target_id=40
+where target_id=46
 order by time_stamp;
 
 -- switching to materialized view
@@ -38,7 +37,7 @@ events.title)
 from events
 inner join event_types 
 on event_types.id = events.event_type_id
-where target_id=40
+where target_id=46
 order by time_stamp;
 
 -- indexing it 
