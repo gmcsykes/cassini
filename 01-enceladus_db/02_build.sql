@@ -33,8 +33,7 @@ create table import.master_plan(
   description text
 );
 
-COPY import.master_plan 
-FROM '[PATH TO]/master_plan.csv' 
-WITH DELIMITER ',' HEADER CSV;
+\COPY import.master_plan 
+FROM '/home/sykesm/cassini/data/master_plan.csv' 
+WITH DELIMITER ',' CSV HEADER;
 
-*/

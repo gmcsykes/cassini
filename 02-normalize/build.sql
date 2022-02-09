@@ -1,9 +1,9 @@
-drop table if exists events cascade;
-drop table if exists teams cascade;
-drop table if exists targets cascade;
-drop table if exists spass_types cascade;
-drop table if exists requests cascade;
-drop table if exists event_types cascade;
+drop table if exists import.events cascade;
+drop table if exists import.teams cascade;
+drop table if exists import.targets cascade;
+drop table if exists import.spass_types cascade;
+drop table if exists import.requests cascade;
+drop table if exists import.event_types cascade;
 
 drop table if exists master_plan;
 create table master_plan(
@@ -18,7 +18,7 @@ create table master_plan(
   title text,
   description text
 );
-COPY import.master_plan FROM '/Users/rob/@Working/Enceladus/demos/02-normalize/../data/master_plan.csv' WITH DELIMITER ',' HEADER CSV;
+COPY import.master_plan FROM '/home/sykesm/cassini/data/master_plan.csv' WITH DELIMITER ',' HEADER CSV;
 -- TEAM
 drop table if exists teams;
 select distinct(team)
@@ -90,7 +90,6 @@ insert into events(
   description, 
   event_type_id, 
   target_id, 
-  team_id, 
   request_id,
 	spass_type_id
 )	
