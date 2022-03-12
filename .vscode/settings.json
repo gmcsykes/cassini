@@ -11,5 +11,9 @@
             "server": "localhost",
             "username": "sykesm"
         }
+    ],
+    "DockerRun.DisableDockerrc": true,
+    "DockerRun.Containers": [
+        "7b9b3b41957c"
     ]
 }

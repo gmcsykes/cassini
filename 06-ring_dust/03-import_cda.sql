@@ -19,12 +19,13 @@ create table import.cda(
 );
 
 COPY import.cda
-FROM '[PATH TO]/cda.csv'
+FROM '/home/sykesm/cassini/data/CDA/cda.csv'
 DELIMITER ',' HEADER CSV;
 
 
 -- normalize into a schema
 drop schema if exists cda cascade;
+
 create schema cda;
 select
   event_id::integer as id,

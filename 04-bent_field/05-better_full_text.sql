@@ -21,7 +21,7 @@ where target_id=46
 order by time_stamp;
 
 -- switching to materialized view
-drop view if exists enceladus_events;
+drop materialized view if exists enceladus_events;
 create materialized view enceladus_events as
 select 
 events.id,
@@ -44,7 +44,7 @@ order by time_stamp;
 create index idx_event_search
 on enceladus_events using GIN(search);
 
--- querying it
+-- querying it11
 select id, date,title
 from enceladus_events 
 where search @@ to_tsquery('closest');

@@ -2,8 +2,8 @@ drop materialized view if exists flyby_altitudes;
 create materialized view flyby_altitudes as
 select 
   (sclk::timestamp) as time_stamp,
-  date_part('year', (sclk::timestamp)) as year,
-  date_part('week', (sclk::timestamp)) as week,
+  date_part('year', (sclk::timestamp)) as year,
+  date_part('week', (sclk::timestamp)) as week,
   alt_t::numeric(10,3) as altitude
 from import.inms
 where target='ENCELADUS'
@@ -43,25 +43,25 @@ create function low_time(
   out timestamp without time zone
 )
 as $$
-  select 
+ select 
     min(time_stamp) 
     + ((max(time_stamp) - min(time_stamp)) /2) 
       as nadir
-  from flyby_altitudes
-  where flyby_altitudes.altitude=alt
-  and flyby_altitudes.year = yr
-  and flyby_altitudes.week = wk
+ from flyby_altitudes
+ where flyby_altitudes.altitude=alt
+ and flyby_altitudes.year = yr
+ and flyby_altitudes.week = wk
 $$ language sql;
 
 -- refactored CTE using function
 with lows_by_week as (
-  select year, week,
-  min(altitude) as altitude
-  from flyby_altitudes
-  group by year, week
+ select year, week,
+ min(altitude) as altitude
+ from flyby_altitudes
+ group by year, week
 ), nadirs as (
-  select low_time(altitude,year,week) as time_stamp,
-  altitude
-  from lows_by_week
+ select low_time(altitude,year,week) as time_stamp,
+ altitude
+ from lows_by_week
 )
 select * from nadirs;
