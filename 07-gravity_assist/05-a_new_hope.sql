@@ -18,26 +18,24 @@ with mins as (
   on mins.year = ta.year 
   and mins.week = ta.week 
   and mins.nadir = ta.altitude
-  group by mins.week, mins.year, mins.nadir 
-), fixed_flybys as (
-  select f.id, 
-    f.name, 
-    f.date, 
-    f.altitude, 
-    f.speed, 
+  group by mins.week, mins.year, mins.nadir
+), fixed_flybys as (select f.id,
+    f.name,
+    f.date,
+    f.altitude,
+    f.speed,
     mt.nadir,
-    mt.year, 
-    mt.week, 
-    mt.low_time, 
-    mt.window_start, 
+    mt.year,
+    mt.week,
+    mt.low_time,
+    mt.window_start,
     mt.window_end
-  from flybys f
-  inner join min_times mt on
-  date_part('year', f.date) = mt.year and
-  date_part('week', f.date) = mt.week
+    from flybys f
+    inner join min_times mt on
+    date_part('year', f.date) = mt.year
+    and
+    date_part('week', f.date) = mt.week
 )
-
-
 -- create the table from the CTE
 select * into flybys_2 
 from fixed_flybys

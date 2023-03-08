@@ -1,28 +1,38 @@
 -- the hard way
-update flybys set start_time=
-(
-  select min(time_stamp)
-  from flyby_altitudes
-  where flybys.time_stamp::date 
-      = flyby_altitudes.time_stamp::date
-  and altitude < flybys.target_altitude + 0.75 
-  and altitude > flybys.target_altitude -  0.75
-);
+UPDATE
+      flybys
+SET
+      start_time = (
+            SELECT
+                  min(time_stamp)
+            FROM
+                  flyby_altitudes
+            WHERE
+                  flybys.time_stamp::date = flyby_altitudes.time_stamp::date
+                  AND altitude < flybys.target_altitude + 0.75
+                  AND altitude > flybys.target_altitude - 0.75);
 
-update flybys set end_time=
-(
-  select max(time_stamp)
-  from flyby_altitudes
-  where flybys.time_stamp::date 
-      = flyby_altitudes.time_stamp::date
-  and altitude < flybys.target_altitude + 0.75 
-  and altitude > flybys.target_altitude -  0.75
-);
-
+UPDATE
+      flybys
+SET
+      end_time = (
+            SELECT
+                  max(time_stamp)
+            FROM
+                  flyby_altitudes
+            WHERE
+                  flybys.time_stamp::date = flyby_altitudes.time_stamp::date
+                  AND altitude < flybys.target_altitude + 0.75
+                  AND altitude > flybys.target_altitude - 0.75);
 
 -- BOOM. Trouble...
+SELECT
+      *
+FROM
+      flyby_altitudes
+WHERE
+      time_stamp::date = '2005-02-17'
+      AND altitude BETWEEN 1200 AND 1500
+ORDER BY
+      time_stamp;
 
-select * from flyby_altitudes
-where time_stamp::date = '2005-02-17'
-and altitude between 1200 and 1500
-order by time_stamp;

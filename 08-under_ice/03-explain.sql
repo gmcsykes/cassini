@@ -1,44 +1,49 @@
 -- how bad will this update be?
-explain update inms.readings
-set flyby_id=flybys.id
-from flybys 
-where flybys.date = inms.readings.time_stamp::date;
+EXPLAIN UPDATE
+  inms.readings
+SET
+  flyby_id = flybys.id
+FROM
+  flybys
+WHERE
+  flybys.date = inms.readings.time_stamp::date;
 
 -- how about this one?
-explain update inms.readings
-set flyby_id = (
-  select id from flybys
-  where date = inms.readings.time_stamp::date
-  limit 1
-);
+EXPLAIN UPDATE
+  inms.readings
+SET
+  flyby_id = (
+    SELECT
+      id
+    FROM
+      flybys
+    WHERE
+      date = inms.readings.time_stamp::date
+    LIMIT 1);
 
 -- a junction table
-drop table if exists flyby_readings;
-create table flyby_readings(
-  reading_id int 
-    not null 
-    unique
-    references inms.readings(id),
-  flyby_id int 
-    not null 
-    references flybys(id),
-  primary key(reading_id,flyby_id)
+DROP TABLE IF EXISTS flyby_readings;
+
+CREATE TABLE flyby_readings (
+  reading_id int NOT NULL UNIQUE REFERENCES inms.readings (id),
+  flyby_id int NOT NULL REFERENCES flybys (id),
+  PRIMARY KEY (reading_id, flyby_id)
 );
 
 -- fill it
-insert into flyby_readings(flyby_id, reading_id)
-select 
+INSERT INTO flyby_readings (flyby_id, reading_id)
+SELECT
   flybys.id,
   inms.readings.id
-from flybys
-inner join inms.readings 
-on date_part('year',time_stamp) = flybys.year
-and date_part('week',time_stamp) = flybys.week;
-
+FROM
+  flybys
+  INNER JOIN inms.readings ON date_part('year', time_stamp) = flybys.year
+    AND date_part('week', time_stamp) = flybys.week;
 
 -- just use an index!
-drop table flyby_readings cascade;
+DROP TABLE flyby_readings CASCADE;
 
-create index idx_stamps 
-on inms.readings(time_stamp)
-where altitude is not null;
+CREATE INDEX idx_stamps ON inms.readings (time_stamp)
+WHERE
+  altitude IS NOT NULL;
+

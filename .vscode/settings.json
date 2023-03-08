@@ -15,5 +15,7 @@
     "DockerRun.DisableDockerrc": true,
     "DockerRun.Containers": [
         "7b9b3b41957c"
-    ]
+    ],
+    "postgreSql.dbName": "cassini",
+    "postgreSql.username": "sykesm"
 }
